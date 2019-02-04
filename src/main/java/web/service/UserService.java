@@ -9,9 +9,8 @@ import web.Repositories.UserRepo;
 import web.domain.Role;
 import web.domain.User;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -34,11 +33,13 @@ public class UserService implements UserDetailsService {
             return false;
         }
         user.setActive(false);
+        Calendar cal = Calendar.getInstance();
+
+        user.setDateOfBirth(LocalDate.of(1992,2,8));
         user.setRoles(Collections.singleton(Role.USER));
         activateUser(user);
        // user.setPassword(passwordEncoder.encode(user.getPassword()));
        // userRepo.save(user);
-
         return true;
     }
     public boolean activateUser(User user) {

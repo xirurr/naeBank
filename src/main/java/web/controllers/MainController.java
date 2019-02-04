@@ -12,6 +12,6 @@ import java.util.Map;
 public class MainController {
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
-        return "/greetings";
+        return "/greeting";
     }
 }

@@ -39,14 +39,19 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
+
     private Set<Role> roles;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Transient
     private int age;
 
     private boolean active;
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -116,26 +121,28 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
     public int getAge() {
-        LocalDate birthDate = dateOfBirth.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();
+      /*  LocalDate birthDate = dateOfBirth.toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDate();*/
         LocalDate currentDate = LocalDate.now();
-        return Period.between(birthDate, currentDate).getYears();
+        return Period.between(dateOfBirth, currentDate).getYears();
     }
 
     public void setAge(){
-        LocalDate birthDate = dateOfBirth.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();
+     /*   LocalDate birthDate = dateOfBirth.toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDate();*/
         LocalDate currentDate = LocalDate.now();
-        age = Period.between(birthDate, currentDate).getYears();
+        age = Period.between(dateOfBirth, currentDate).getYears();
     }
+
+
 
 }

@@ -29,17 +29,32 @@ public class UserController {
     }
 
 
-    @PostMapping
-    public Map<String,String> create(
-            @RequestParam String name,
-            @RequestParam String password,
-            @RequestBody Date dateOfBirth
+   /* @PostMapping
+    public boolean createUser(
+            @RequestParam("name") String name,
+            @RequestParam("password") String password,
+            @RequestBody(required = false) Date dateOfBirth
                                      ){
         User user = new User();
         user.setPassword(password);
         user.setUsername(name);
         user.setDateOfBirth(new Date(1992,2,8));
-        return message;
-    }
+        userService.addUser(user);
+        return true;
+    }*/
+    /*
+    @PostMapping
+    public boolean createUser(
+            @RequestParam String name,
+            @RequestParam String password,
+            @RequestBody(required = false) Date dateOfBirth
+                                     ){
+        User user = new User();
+        user.setPassword(password);
+        user.setUsername(name);
+        user.setDateOfBirth(new Date(1992,2,8));
+        userService.addUser(user);
+        return true;
+    }*/
 
 }
