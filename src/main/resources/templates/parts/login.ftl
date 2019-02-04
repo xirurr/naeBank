@@ -39,7 +39,12 @@
                     </#if>
                 </div>
             </div>
-
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Дата рождения:</label>
+                    <div class="form-group">
+                        <input class="form-control" type="date" name="dateOfBirth">
+                    </div>
+            </div>
         </#if>
         <#if !isRegisterForm>
             <a href="/registration">Registration</a>

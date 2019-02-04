@@ -42,8 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll()
                 //.anyRequest().authenticated()
                 .anyRequest().permitAll()//убрать
-                .   and()
+                    .and()
                 .formLogin()
+                .loginPage("/login")
                 .permitAll()
                     .and()
                 .rememberMe()
