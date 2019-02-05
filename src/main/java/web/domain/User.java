@@ -45,8 +45,6 @@ public class User implements UserDetails {
 
     private Set<Role> roles;
 
-
-    //@ValidDate(message = "pwd cannot be blank")
     private LocalDate dateOfBirth;
 
     @Transient

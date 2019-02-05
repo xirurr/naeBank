@@ -1,5 +1,6 @@
 package web.controllers;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -37,21 +38,20 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(
             @RequestParam("password2") String passwordConfirm,
-            @RequestParam("dateOfBirth") String dateFromForm,
+            @RequestParam("inputDate") String dateFromForm,
             @Valid User user,
             BindingResult bindingResult,
-            Model model)
-    {
+            Model model) {
 
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
-        if (isConfirmEmpty){
-            model.addAttribute("password2Error","pwd confirmation cannot be blank");
+        if (isConfirmEmpty) {
+            model.addAttribute("password2Error", "pwd confirmation cannot be blank");
         }
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "passwords are different!");
             return "registration";
         }
-        if ( dateFromForm.isEmpty() || dateFromForm.equals("") || dateFromForm==null || Period.between(LocalDate.parse(dateFromForm), LocalDate.now()).getYears() <18) {
+        if (dateFromForm.isEmpty() || dateFromForm.equals("") || dateFromForm == null || Period.between(LocalDate.parse(dateFromForm), LocalDate.now()).getYears() < 18) {
             model.addAttribute("dateError", "WRONG DATE!");
             model.addAttribute("inputDate", dateFromForm);
             return "registration";

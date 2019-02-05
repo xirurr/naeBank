@@ -26,7 +26,6 @@ public class UserController {
     @Autowired
     public UserRepo userRepo;
 
-
   /*  @GetMapping
     public List<User> list() {
         return userRepo.findAll();

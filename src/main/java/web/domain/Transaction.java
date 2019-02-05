@@ -23,11 +23,11 @@ public class Transaction {
 
     private BigDecimal ammount;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="sender_id")
     private User sender;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="reciever_id")
     private User reciever;
 

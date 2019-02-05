@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -18,8 +19,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/transaction")
+@Controller
+@RequestMapping("/transactions")
 public class TransactionController {
     @Autowired
     TransRepo transRepo;
@@ -69,6 +70,6 @@ public class TransactionController {
             model.addAttribute("usernameError", "User exists");
             return "registration";
         }
-        return "redirect:/login";*/
-    }
+        return "redirect:/login";
+    }*/
 }
