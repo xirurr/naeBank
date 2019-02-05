@@ -1,26 +1,25 @@
+<#include "parts/security.ftl">
+<#import "parts/pager.ftl" as p>
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-    List of users
-    <table>
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th></th>
-        </tr>
-        </thead>
 
-    <tbody>
-    <#list  users as user>
-        <tr>
-            <td>${user.username}</td>
-            <td><#list user.roles as role>${role}<#sep>, </#list></>
-            <td><a href="/user/${user.id}">edit</a></td>
-        </tr>
+<@p.pager url page/>
+<div class="card-columns" id="message-list">
+    <#list page.content as user>
+        <div class="card m-2" data-id="${user.id}">
+            <span>${user.id}</span>
+            <i>${user.username}</i>
+            <i>${user.age}</i>
+            <i>${user.getDateOfBirth()}</i>
+            <div class="card-footer text-muted">
+                <a href="/user-messages/${user.id}"> ${user.id}</a>
+            </div>
+        </div>
     <#else>
         No users
     </#list>
-    </tbody>
-    </table>
+</div>
+<@p.pager url page/>
 </@c.page>
+

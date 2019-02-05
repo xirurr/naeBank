@@ -1,6 +1,12 @@
 package web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import web.Repositories.UserRepo;
 import web.domain.User;
@@ -10,23 +16,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("users")
 public class UserController {
-    private final UserRepo userRepo;
+
 
     @Autowired
     public UserService userService;
-
     @Autowired
-    public UserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public UserRepo userRepo;
+
+
+  /*  @GetMapping
+    public List<User> list() {
+        return userRepo.findAll();
+    }*/
+    @GetMapping()
+    public String main(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            Model model) {
+        Page<User> page;
+        page = userRepo.findAll(pageble);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/users");
+        return "userList";
     }
 
-    @GetMapping
-    public List<User> list(){
-        return userRepo.findAll();
-    }
+
+
+
+
+
+
+
+
+
+
+
 
 
    /* @PostMapping

@@ -43,7 +43,7 @@
                 <label class="col-sm-2 col-form-label">Дата рождения:</label>
                     <div class="form-group">
                         <input class="form-control ${(dateError??)?string('is-invalid','')}" type="date" name="dateOfBirth"
-                               value="<#if user??><#if dateError??>${testing}</#if></#if>"
+                               value="<#if user??><#if dateError??>${inputDate}</#if></#if>"
                                />
                         <#if dateError??>
                             <div class="invalid-feedback">
