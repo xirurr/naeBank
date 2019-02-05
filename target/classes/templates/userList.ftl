@@ -3,23 +3,29 @@
 <#import "parts/common.ftl" as c>
 
 <@c.page>
-
-<@p.pager url page/>
-<div class="card-columns" id="message-list">
-    <#list page.content as user>
-        <div class="card m-2" data-id="${user.id}">
-            <span>${user.id}</span>
-            <i>${user.username}</i>
-            <i>${user.age}</i>
-            <i>${user.getDateOfBirth()}</i>
-            <div class="card-footer text-muted">
-                <a href="/user-messages/${user.id}"> ${user.id}</a>
-            </div>
-        </div>
-    <#else>
-        No users
-    </#list>
-</div>
-<@p.pager url page/>
+    <@p.pager url page/>
+    <table class="table" id="transaction-list">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">username</th>
+            <th scope="col">AGE</th>
+            <th scope="col">Date of birth</th>
+            <th scope="col">Date of birth2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list page.content as user>
+            <tr>
+                <th scope="row">${user.id}</th>
+                <td>${user.username}</td>
+                <td>${user.age}</td>
+                <td>${user.getDateOfBirth()}</td>
+                <td><a href="/transactions/${user.id}"> transactions list</a></td>
+            </tr>
+        </#list>
+        </tbody>
+    </table>
+    <@p.pager url page/>
 </@c.page>
 

@@ -5,19 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.Repositories.TransRepo;
 import web.domain.Transaction;
 import web.domain.User;
-
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/transactions")
@@ -27,15 +21,28 @@ public class TransactionController {
 
     @GetMapping("")
     public String all(
-                @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            @AuthenticationPrincipal User user,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
                 Model model) {
             Page<Transaction> page;
-            page = transRepo.findAll(pageble);
+          //  page = transRepo.findAll(pageble);
+            page = transRepo.findBySenderRecieverId(user.getId(),pageble);
             model.addAttribute("page", page);
             model.addAttribute("url", "/transactions");
             return "transactions";
     }
-
+    @GetMapping("")
+    public String all(
+            @AuthenticationPrincipal User user,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            Model model) {
+        Page<Transaction> page;
+        //  page = transRepo.findAll(pageble);
+        page = transRepo.findBySenderRecieverId(user.getId(),pageble);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions");
+        return "transactions";
+    }
 
    /* @PostMapping("/registration")
     public String addUser(

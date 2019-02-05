@@ -8,7 +8,7 @@ import web.domain.User;
 
 import java.util.List;
 
-public interface UserRepo extends CrudRepository<User,Long> {
+public interface UserRepo extends JpaRepository<User,Long> {
     User findByUsername(String username);
     Page<User> findAll(Pageable pageable);
     List<User> findAll();

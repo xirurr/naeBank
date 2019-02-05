@@ -15,19 +15,21 @@
         </tr>
         </thead>
         <tbody>
+
         <#list page.content as trans>
-            <tr>
-                <th scope="row">${trans.id}</th>
-                <td>${trans.date}</td>
-                <td>${trans.ammount}</td>
-                <td>${trans.sender.getUsername()}(${trans.sender.getId()})</td>
-                <td>${trans.reciever.getUsername()}(${trans.reciever.getId()})</td>
-            </tr>
+            <#if (user.id=trans.sender.id || user.id=trans.reciever.id)>
+                <tr>
+                    <th scope="row">${trans.id}</th>
+                    <td>${trans.date}</td>
+                    <td>${trans.ammount}</td>
+                    <td>${trans.sender.getUsername()}(${trans.sender.getId()})</td>
+                    <td>${trans.reciever.getUsername()}(${trans.reciever.getId()})</td>
+                </tr>
+            </#if>
         <#else>
-            No transactions
+            Part executed when there are 0 items
         </#list>
         </tbody>
     </table>
-
     <@p.pager url page/>
 </@c.page>
