@@ -4,10 +4,13 @@ package web.domain;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import web.validator.ValidDate;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.Period;
@@ -36,12 +39,19 @@ public class User implements UserDetails {
     @NonNull
     private String password;
 
+
+    @NotBlank(message = "pwd2 cannot be blank")
+    @Transient
+    private String password2;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
 
     private Set<Role> roles;
 
+
+    //@ValidDate(message = "pwd cannot be blank")
     private LocalDate dateOfBirth;
 
     @Transient
@@ -103,6 +113,15 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 
     public Set<Role> getRoles() {

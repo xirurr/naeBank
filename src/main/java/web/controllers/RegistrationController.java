@@ -15,7 +15,11 @@ import web.domain.User;
 import web.service.UserService;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -33,10 +37,12 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(
             @RequestParam("password2") String passwordConfirm,
+            @RequestParam("dateOfBirth") String dateFromForm,
             @Valid User user,
             BindingResult bindingResult,
             Model model)
     {
+
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if (isConfirmEmpty){
             model.addAttribute("password2Error","pwd confirmation cannot be blank");
@@ -45,11 +51,18 @@ public class RegistrationController {
             model.addAttribute("passwordError", "passwords are different!");
             return "registration";
         }
+        if ( dateFromForm.isEmpty() || dateFromForm.equals("") || dateFromForm==null || Period.between(LocalDate.parse(dateFromForm), LocalDate.now()).getYears() <18) {
+            model.addAttribute("dateError", "WRONG DATE!");
+            model.addAttribute("inputDate", dateFromForm);
+            return "registration";
+        }
         if (isConfirmEmpty || bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
             return "registration";
         }
+
+        user.setDateOfBirth(LocalDate.parse(dateFromForm));
         if (!userService.addUser(user)) {
             model.addAttribute("usernameError", "User exists");
             return "registration";
