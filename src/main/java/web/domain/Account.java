@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 @ToString(of ={"id,ammount,user,tag"})
 @EqualsAndHashCode(of={"id"})
 public class Account {
+    public Account(User user) {
+        this.user = user;
+        ammount=BigDecimal.ZERO;
+    }
 
     public Account() {
     }
@@ -25,8 +29,8 @@ public class Account {
     @JoinColumn(name ="user_id")
     private User user;
 
-    private String tag;
 
+    private String tag;
 
     public Long getId() {
         return id;

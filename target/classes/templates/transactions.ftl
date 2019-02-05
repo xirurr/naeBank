@@ -22,8 +22,8 @@
                     <th scope="row">${trans.id}</th>
                     <td>${trans.date}</td>
                     <td>${trans.ammount}</td>
-                    <td>${trans.sender.getUsername()}(${trans.sender.getId()})</td>
-                    <td>${trans.reciever.getUsername()}(${trans.reciever.getId()})</td>
+                    <td>USER:${trans.sender.getUsername()}(ACCOUNT:${trans.getSenderAccount().getId()})</td>
+                    <td>USER${trans.reciever.getUsername()})</td>
                 </tr>
             </#if>
         <#else>

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,22 +24,23 @@ public class TransactionController {
     public String all(
             @AuthenticationPrincipal User user,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
-                Model model) {
-            Page<Transaction> page;
-          //  page = transRepo.findAll(pageble);
-            page = transRepo.findBySenderRecieverId(user.getId(),pageble);
-            model.addAttribute("page", page);
-            model.addAttribute("url", "/transactions");
-            return "transactions";
-    }
-    @GetMapping("")
-    public String all(
-            @AuthenticationPrincipal User user,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         Page<Transaction> page;
         //  page = transRepo.findAll(pageble);
-        page = transRepo.findBySenderRecieverId(user.getId(),pageble);
+        page = transRepo.findBySenderRecieverId(user.getId(), pageble);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions");
+        return "transactions";
+    }
+
+    @GetMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String getUserTranscations(
+            @PathVariable Long id,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            Model model) {
+        Page<Transaction> page;
+        page = transRepo.findBySenderRecieverId(id, pageble);
         model.addAttribute("page", page);
         model.addAttribute("url", "/transactions");
         return "transactions";

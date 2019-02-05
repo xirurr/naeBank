@@ -27,6 +27,10 @@ public class Transaction {
     @JoinColumn(name ="sender_id")
     private User sender;
 
+    @OneToOne
+    @JoinColumn(name ="sender_accound")
+    private Account senderAccount;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="reciever_id")
     private User reciever;
@@ -72,5 +76,13 @@ public class Transaction {
 
     public void setReciever(User reciever) {
         this.reciever = reciever;
+    }
+
+    public Account getSenderAccount() {
+        return senderAccount;
+    }
+
+    public void setSenderAccount(Account senderAccount) {
+        this.senderAccount = senderAccount;
     }
 }

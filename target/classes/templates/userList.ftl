@@ -11,7 +11,7 @@
             <th scope="col">username</th>
             <th scope="col">AGE</th>
             <th scope="col">Date of birth</th>
-            <th scope="col">Date of birth2</th>
+            <th scope="col">Transactions</th>
         </tr>
         </thead>
         <tbody>

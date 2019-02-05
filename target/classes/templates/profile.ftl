@@ -1,6 +1,6 @@
 <#import "parts/common.ftl" as c>
 <@c.page>
-    <h5>${username}</h5>
+    <h5>${user.username}</h5>
     ${message?if_exists}
     <form method="post">
         <div class="form-group row">

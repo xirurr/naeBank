@@ -16,6 +16,8 @@ import java.util.*;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,6 +47,7 @@ public class UserService implements UserDetailsService {
     public boolean activateUser(User user) {
         user.setActive(true);
         userRepo.save(user);
+        accountService.addUserAccount(user);
         return true;
     }
 
