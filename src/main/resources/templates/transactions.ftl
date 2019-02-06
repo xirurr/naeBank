@@ -25,8 +25,9 @@
                     <th scope="row">${trans.id}</th>
                     <td>${trans.date}</td>
                     <td>${trans.ammount}</td>
-                    <td>USER:${trans.sender.getUsername()}(ACCOUNT:${trans.getSenderAccount().getId()})</td>
-                    <td>USER${trans.reciever.getUsername()})</td>
+                    <td>${trans.sender.getUsername()!'божий промысел'}
+                        (ACCOUNT:<#if trans.getSenderAccount()??>${trans.getSenderAccount().getId()}<#else>NO ACCOUNT</#if>)</td>
+                    <td>${trans.reciever.getUsername()}</td>
                 </tr>
             </#if>
         <#else>
@@ -35,10 +36,13 @@
         </tbody>
     </table>
     <@p.pager url page/>
-
-
+<div class="container">
+    <div class="row">
+    <@act.addMoney/>
     <@act.newAcc/>
     <@act.transactTo/>
 
+    </div>
+</div>
 
 </@c.page>

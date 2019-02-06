@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ import web.service.AccountService;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/account")
 public class AccountController {
 
@@ -49,7 +50,7 @@ public class AccountController {
     {
         if (!accountService.addUserAccount(user,account)) {
             model.addAttribute("usernameError", "You have reached Max account count");
-            return "/account";
+            return "/transactions";
         }
         return "redirect:/transactions"; // заменить на обработчик ошибок при привышении количества аккаунтов
     }

@@ -1,4 +1,4 @@
 package web.domain;
 
-public enum TransactionType { SEND, RECIEVE;
+public enum TransactionType { SEND, SELFTRANS, ADDFOUNDS;
 }

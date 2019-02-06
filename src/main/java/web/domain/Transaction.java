@@ -34,6 +34,8 @@ public class Transaction {
     @JoinColumn(name ="sender_account")
     private Account senderAccount;
 
+    private TransactionType type;
+
 
     @OneToOne
     @JoinColumn(name ="reciever_account")
@@ -104,4 +106,12 @@ public class Transaction {
         this.recieverAccount = recieverAccount;
     }
 
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
 }
