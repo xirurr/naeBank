@@ -1,8 +1,11 @@
 <#include "parts/security.ftl">
 <#import "parts/pager.ftl" as p>
 <#import "parts/common.ftl" as c>
+<#import "parts/actions.ftl" as act>
+
 
 <@c.page>
+
     <@p.pager url page/>
     <table class="table" id="transaction-list">
         <thead>
@@ -32,4 +35,10 @@
         </tbody>
     </table>
     <@p.pager url page/>
+
+
+    <@act.newAcc/>
+    <@act.transactTo/>
+
+
 </@c.page>

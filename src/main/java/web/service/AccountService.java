@@ -8,6 +8,8 @@ import web.domain.Account;
 import web.domain.Transaction;
 import web.domain.User;
 
+import java.math.BigDecimal;
+
 @Service
 public class AccountService {
     @Autowired
@@ -18,6 +20,16 @@ public class AccountService {
         accRepo.save(account);
         return true;
     }
+
+    public boolean addUserAccount(User user, Account account) {
+        account.setUser(user);
+        account.setAmmount(BigDecimal.ZERO);
+        accRepo.save(account);
+        return true;
+    }
+
+
+
 
 }
 

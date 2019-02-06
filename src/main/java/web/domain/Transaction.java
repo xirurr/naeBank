@@ -5,8 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "transaction")
@@ -16,11 +18,12 @@ public class Transaction {
     public Transaction() {
     }
     @Id
+    //@Min(0)
     @GeneratedValue
     private Long id;
 
-    private Timestamp date;
-
+    private LocalDate date;
+    @Min(0)
     private BigDecimal ammount;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,12 +31,19 @@ public class Transaction {
     private User sender;
 
     @OneToOne
-    @JoinColumn(name ="sender_accound")
+    @JoinColumn(name ="sender_account")
     private Account senderAccount;
+
+
+    @OneToOne
+    @JoinColumn(name ="reciever_account")
+    private Account recieverAccount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="reciever_id")
     private User reciever;
+
+
 
 
 
@@ -46,11 +56,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public Timestamp getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -85,4 +95,13 @@ public class Transaction {
     public void setSenderAccount(Account senderAccount) {
         this.senderAccount = senderAccount;
     }
+
+    public Account getRecieverAccount() {
+        return recieverAccount;
+    }
+
+    public void setRecieverAccount(Account recieverAccount) {
+        this.recieverAccount = recieverAccount;
+    }
+
 }

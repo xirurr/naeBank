@@ -9,16 +9,32 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import web.Repositories.AccRepo;
 import web.Repositories.TransRepo;
+import web.Repositories.UserRepo;
+import web.domain.Account;
 import web.domain.Transaction;
 import web.domain.User;
+import web.service.TrancationService;
+
+import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
     @Autowired
     TransRepo transRepo;
+    @Autowired
+    UserRepo userRepo;
+    @Autowired
+    AccRepo accRepo;
+
+    @Autowired
+    TrancationService trancationService;
 
     @GetMapping("")
     public String all(
@@ -26,8 +42,12 @@ public class TransactionController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         Page<Transaction> page;
-        //  page = transRepo.findAll(pageble);
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+
         page = transRepo.findBySenderRecieverId(user.getId(), pageble);
+        model.addAttribute("users",userList);
+        model.addAttribute("accounts",accounts);
         model.addAttribute("page", page);
         model.addAttribute("url", "/transactions");
         return "transactions";
@@ -46,39 +66,20 @@ public class TransactionController {
         return "transactions";
     }
 
-   /* @PostMapping("/registration")
-    public String addUser(
-            @RequestParam("password2") String passwordConfirm,
-            @RequestParam("dateOfBirth") String dateFromForm,
-            @Valid User user,
+
+
+    @PostMapping("/new")
+    public String createTransaction(
+            @AuthenticationPrincipal User user,
+          //  @RequestParam("reciever") String reciever,
+            @Valid Transaction transaction,
             BindingResult bindingResult,
             Model model)
     {
-
-        boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
-        if (isConfirmEmpty){
-            model.addAttribute("password2Error","pwd confirmation cannot be blank");
+        if (!bindingResult.hasErrors() && transaction.getAmmount()!= BigDecimal.ZERO){
+             trancationService.newTransaction(transaction,user);
+             return "redirect:/transactions";
         }
-        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
-            model.addAttribute("passwordError", "passwords are different!");
-            return "registration";
-        }
-        if ( dateFromForm.isEmpty() || dateFromForm.equals("") || dateFromForm==null || Period.between(LocalDate.parse(dateFromForm), LocalDate.now()).getYears() <18) {
-            model.addAttribute("dateError", "WRONG DATE!");
-            model.addAttribute("inputDate", dateFromForm);
-            return "registration";
-        }
-        if (isConfirmEmpty || bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorsMap);
-            return "registration";
-        }
-
-        user.setDateOfBirth(LocalDate.parse(dateFromForm));
-        if (!userService.addUser(user)) {
-            model.addAttribute("usernameError", "User exists");
-            return "registration";
-        }
-        return "redirect:/login";
-    }*/
+        return "redirect:/transactions"; //Добавить отображение ошибок
+    }
 }

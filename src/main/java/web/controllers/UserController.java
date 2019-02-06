@@ -41,8 +41,15 @@ public class UserController {
         return "userList";
     }
 
-
-
+/*
+    @GetMapping("/dd")
+    public String main2(
+            Model model) {
+        List<User> all = userRepo.findAll();
+        model.addAttribute("users", all);
+        return "testpage";
+    }
+*/
 
 
 

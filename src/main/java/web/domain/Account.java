@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 @Entity
@@ -20,9 +21,11 @@ public class Account {
     public Account() {
     }
     @Id
+    @Min(0)
     @GeneratedValue
     private Long id;
 
+    @Min(0)
     private BigDecimal ammount;
 
     @ManyToOne(fetch = FetchType.EAGER)

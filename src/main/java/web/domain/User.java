@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.Period;
@@ -23,6 +24,7 @@ public class User implements UserDetails {
     }
 
     @Id
+    @Min(0)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -42,7 +44,6 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-
     private Set<Role> roles;
 
     private LocalDate dateOfBirth;
