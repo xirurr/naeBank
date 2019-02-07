@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0828e84a-288b-4aa1-bccf-436143879647" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/web/Repositories/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/web/Repositories/UserRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/transactions.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/transactions.ftl" afterDir="false" />
     </list>
@@ -39,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="56" column="40" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
+            <state relative-caret-position="151">
+              <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2486#2691#1" />
@@ -63,11 +62,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/transactions.ftl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="35" column="21" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="35" selection-end-column="21" />
+            <state relative-caret-position="51">
+              <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="80" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/parts/pager.ftl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-561">
+              <caret column="8" selection-start-column="8" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -170,8 +178,8 @@
         <option value="$PROJECT_DIR$/src/main/java/web/controllers/AccountController.java" />
         <option value="$PROJECT_DIR$/src/main/java/web/Repositories/UserRepo.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/parts/common.ftl" />
-        <option value="$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/transactions.ftl" />
+        <option value="$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java" />
       </list>
     </option>
   </component>
@@ -396,13 +404,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158968000" />
+    <option name="totallyTimeSpent" value="159764000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1988273" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1988273" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -413,7 +421,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.34444445" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.38444445" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.38444445" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2913,13 +2921,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/parts/pager.ftl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31">
-          <caret column="8" selection-start-column="8" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/parts/common.ftl">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -2933,19 +2934,6 @@
           <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="56" column="40" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2486#2691#1" />
-            <element signature="e#2731#2986#1" />
-            <element signature="e#3027#3148#1" />
           </folding>
         </state>
       </provider>
@@ -2966,8 +2954,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/transactions.ftl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="35" column="21" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="35" selection-end-column="21" />
+        <state relative-caret-position="51">
+          <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/parts/pager.ftl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-561">
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/web/controllers/TransactionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2486#2691#1" />
+            <element signature="e#2731#2986#1" />
+            <element signature="e#3027#3148#1" />
+          </folding>
         </state>
       </provider>
     </entry>

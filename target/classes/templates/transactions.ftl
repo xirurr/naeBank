@@ -54,13 +54,15 @@
         </tbody>
     </table>
     <@p.pager url page/>
-
-<div class="container">
-    <div class="row">
-    <@act.addMoney/>
-    <@act.newAcc/>
-    <@act.transactTo/>
+<#if !id??>
+    <div class="container">
+        <div class="row">
+            <@act.addMoney/>
+            <@act.newAcc/>
+            <@act.transactTo/>
+        </div>
     </div>
-</div>
+</#if>
+
 
 </@c.page>
