@@ -37,7 +37,7 @@
             transact money
         </a>
 
-        <div class="collapse <#if SELFTRANSError??>show</#if><#if SENDError??>show</#if>" id="transactForm">
+        <div class="collapse <#if SELFTRANSError??||ammountError??||SENDError??>show</#if>" id="transactForm">
 
             <div class="form-check">
                 <input class="form-check-input" onclick="accToAccTrans()" type="radio" name="transType" id="selfTrans"
@@ -196,6 +196,7 @@
         </div>
     </div>
 </#macro>
+
 
 
 

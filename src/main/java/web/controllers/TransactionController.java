@@ -63,12 +63,18 @@ public class TransactionController {
     @PostMapping("/new")
     public String createTransaction(
             @AuthenticationPrincipal User user,
-            @Valid Transaction transaction,
+            /*@Valid*/ Transaction transaction,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             BindingResult bindingResult,
             Model model) {
         model = trancationService.getSimpleTransactionList(user, pageble, model,"/transactions");
 
+
+        if (transaction.getAmmount().compareTo(transaction.getSenderAccount().getAmmount())==1){
+            model.addAttribute("ammountError", "нехватает средств");
+            model.addAttribute(transaction.getType().name() + "Error", "");
+            return "/transactions";
+        }
         if (transaction.getAmmount()==null || transaction.getAmmount().compareTo(BigDecimal.ZERO) < 0) {
             model.addAttribute("ammountError", "минимальная сумма операций = 1");
             model.addAttribute(transaction.getType().name() + "Error", "");
@@ -80,6 +86,7 @@ public class TransactionController {
             model.mergeAttributes(errorsMap);
             return "/transactions";
         }
+
         if (!bindingResult.hasErrors()) {
             trancationService.newTransaction(transaction, user);
             return "redirect:/transactions";
