@@ -22,7 +22,7 @@
         <tbody>
 
         <#list page.content as trans>
-            <#if (user.id=trans.sender.id || user.id=trans.reciever.id)>
+            <#if (user.id=trans.sender.id || user.id=trans.reciever.id) && !id??>
                 <tr>
                     <th scope="row">${trans.id}</th>
                     <td>${trans.date}</td>
