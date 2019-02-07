@@ -25,8 +25,11 @@
                     <th scope="row">${trans.id}</th>
                     <td>${trans.date}</td>
                     <td>${trans.ammount}</td>
-                    <td>${trans.sender.getUsername()!'божий промысел'}
-                        (ACCOUNT:<#if trans.getSenderAccount()??>${trans.getSenderAccount().getId()}<#else>NO ACCOUNT</#if>)</td>
+                    <td>
+                        <#if trans.getSenderAccount()??> ${trans.sender.getUsername()}
+                        <#else></#if>
+                        <#if trans.getSenderAccount()??>(ACCOUNT# ${trans.getSenderAccount().getId()})
+                        <#else>АВТОПОПОЛНЕНИЕ</#if></td>
                     <td>${trans.reciever.getUsername()}</td>
                 </tr>
             </#if>

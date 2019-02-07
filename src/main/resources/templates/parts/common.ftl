@@ -11,6 +11,7 @@
               crossorigin="anonymous"/>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
     </head>
     <body>
     <#include "navbar.ftl">

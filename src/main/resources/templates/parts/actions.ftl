@@ -48,13 +48,13 @@
                 </label>
             </div>
 
-            <form class="form" method="post" name="test" id="transactForm" action="/transactions/new">
+            <form class="form needs-validation" novalidate method="post" name="test" id="transactForm" action="/transactions/new">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">сумма перевода</label>
                     <div class="col-sm-5">
                         <input class="form-control ${(ammountError??&&(SELFTRANSError??||SENDError??))?string('is-invalid','')}"
-                               id="ammountform" type="number" min="1" step="0.01" name="ammount"
-                               placeholder="Input ammount"/>
+                               id="TransactAmmountform" type="number" min="1" step="0.01" name="ammount"
+                               placeholder="Input ammount" required/>
                         <#if ammountError??>
                             <div class="invalid-tooltip">
                                 ${ammountError}
@@ -66,7 +66,7 @@
                     <label class="col-sm-2 col-form-label">С рассчетного счета:</label>
                     <div class="col-sm-5">
                         <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true"
-                                name="senderAccount">
+                                id="TransactSenderAccSelector" name="senderAccount">
                             <#list accounts as account>
                                 <option data-subtext="${account.tag!"  "} Currency:<b>${account.ammount}</b>">${account.id}</option>
                             </#list>
@@ -77,8 +77,10 @@
                 <div class="form-group row" id="recieverUserAccountField">
                     <label class="col-sm-2 col-form-label">на рассчетный счет:</label>
                     <div class="col-sm-5">
-                        <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true"
-                                name="recieverAccount">
+                        <select class="selectpicker form-control"  data-show-subtext="true" data-live-search="true"
+                                id="TransactRecieverAccSelector" name="recieverAccount"
+                                data-toggle="popover" data-trigger="hover" data-content="Првоерьте аккаунты"
+                        >
                             <#list accounts as account>
                                 <option data-subtext="${account.tag!"  "} Currency:<b>${account.ammount}</b>">${account.id}</option>
                             </#list>
@@ -89,7 +91,7 @@
                     <label class="col-sm-2 col-form-label">пользователю:</label>
                     <div class="col-sm-5">
                         <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true"
-                                name="reciever">
+                              id="TransactUserNameSelector"  name="reciever">
                             <#list users as userA>
                                 <#if name != userA.username>
                                     <option data-subtext="<b>${userA.username}</b>">${userA.id}</option>
@@ -100,7 +102,8 @@
                 </div>
 
 
-                <button class="btn btn-primary" type="submit">Transcat</button>
+                <button class="btn btn-primary" id="TransactSubmitButton" type="submit">Transcat</button>
+
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <input type="hidden" name="type" value="SELFTRANS"/>
             </form>
@@ -112,14 +115,40 @@
         function accToAccTrans() {
             $("#recieverField").hide();
             $("#recieverUserAccountField").show();
-            $("input[name=type]").val("SELFTRANS")
-        }
+            $("input[name=type]").val("SELFTRANS");
+            checkState();
 
+        }
         function accToUserTrans() {
             $("#recieverField").show();
             $("#recieverUserAccountField").hide();
-            $("input[name=type]").val("SEND")
+            $("input[name=type]").val("SEND");
+            checkState();
         }
+        function checkState () {
+            var sender = document.getElementById("TransactSenderAccSelector");
+            var reciever = document.getElementById("TransactRecieverAccSelector");
+            var submitButton = document.getElementById("TransactSubmitButton");
+            var checker = document.getElementById("selfTrans").checked;
+            var toUser = document.getElementById("toUserTrans").checked;
+            if (checker) {
+                if (sender.options[sender.selectedIndex].value === reciever.options[reciever.selectedIndex].value) {
+                    submitButton.setAttribute("disabled", true);
+                } else {
+                    submitButton.removeAttribute("disabled", true);
+                }
+            }
+            if (toUser){
+                submitButton.removeAttribute("disabled", true);
+            }
+        };
+        (function () {
+            var reciever = document.getElementById("TransactRecieverAccSelector");
+            var sender = document.getElementById("TransactSenderAccSelector");
+            window.onload=checkState;
+            reciever.onchange=checkState;
+            sender.onchange=checkState;
+        })();
     </script>
 </#macro>
 
@@ -134,8 +163,8 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">сумма пополения</label>
                     <input class="form-control  ${(ammountError??&&ADDFOUNDSError??)?string('is-invalid','')}"
-                           type="number" min="0" step="0.01" name="ammount"
-                           placeholder="Input ammount"/>
+                           type="number" min="0" step="0.01" name="ammount" id="addMoneyAmmountForm"
+                           placeholder="Input ammount" required/>
                     <#if ammountError??>
                         <div class="invalid-tooltip">
                             ${ammountError}

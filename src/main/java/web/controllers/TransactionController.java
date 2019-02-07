@@ -70,7 +70,7 @@ public class TransactionController {
         model = getSimpleTransactionList(user, pageble, model);
 
         if (transaction.getAmmount()==null || transaction.getAmmount().compareTo(BigDecimal.ZERO) < 0) {
-            model.addAttribute("ammountError", "минимальная сумма перевода 1");
+            model.addAttribute("ammountError", "минимальная сумма операций = 1");
             model.addAttribute(transaction.getType().name() + "Error", "");
             return "/transactions";
         }
@@ -80,12 +80,11 @@ public class TransactionController {
             model.mergeAttributes(errorsMap);
             return "/transactions";
         }
-
         if (!bindingResult.hasErrors()) {
             trancationService.newTransaction(transaction, user);
             return "redirect:/transactions";
         }
-        return "/transactions"; //Добавить отображение ошибок
+        return "/transactions";
     }
 
     private Model getSimpleTransactionList(@AuthenticationPrincipal User user, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble, Model model) {
