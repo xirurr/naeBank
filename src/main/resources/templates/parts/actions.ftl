@@ -21,7 +21,7 @@
             </div>
             <button class="btn btn-primary" type="submit">CREATE</button>
 
-        <#--    <input type="hidden" name="user" value="<#if userD?is_string>${user.id}<#else>${userD.id}</#if>"/>-->
+      <input type="hidden" name="user" value="<#if userD?is_string>${user}<#else>${userD}</#if>"/>
 
 
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>

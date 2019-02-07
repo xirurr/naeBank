@@ -57,10 +57,9 @@ public class AccountController {
             @Valid Account account,
             Model model) {
         User user = userRepo.getOne(id);
-        if (!accountService.addUserAccount(user, account)) {
-            return "redirect:/accounts"+id;
-        }
-        return "redirect:/accounts";
+        accountService.addUserAccount(user, account);
+        model = accountService.getUserAccs(model, user);
+        return "accounts";
     }
 
 
