@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/transactions")
@@ -53,9 +54,12 @@ public class TransactionController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         Page<Transaction> page;
-        page = transRepo.findBySenderRecieverId(id, pageble);
+        User user = userRepo.getOne(id);
+       /* page = transRepo.findBySenderRecieverId(id, pageble);
         model.addAttribute("page", page);
-        model.addAttribute("url", "/transactions");
+        model.addAttribute("url", "/transactions");*/
+        model = getSimpleTransactionList(user, pageble, model);
+        model.addAttribute("id", id);
         return "transactions";
     }
 
@@ -87,7 +91,7 @@ public class TransactionController {
         return "/transactions";
     }
 
-    private Model getSimpleTransactionList(@AuthenticationPrincipal User user, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble, Model model) {
+    private Model getSimpleTransactionList(User user, Pageable pageble, Model model) {
         Page<Transaction> page;
         List<User> userList = userRepo.findAll();
         List<Account> accounts = accRepo.findByUser(user);

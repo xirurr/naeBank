@@ -3,7 +3,9 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/actions.ftl" as act>
 
+<#macro TransTable>
 
+</#macro>
 <@c.page>
 
     <@p.pager url page/>
@@ -33,18 +35,31 @@
                     <td>${trans.reciever.getUsername()}</td>
                 </tr>
             </#if>
+            <#if isAdmin &&id??>
+                <tr>
+                    <th scope="row">${trans.id}</th>
+                    <td>${trans.date}</td>
+                    <td>${trans.ammount}</td>
+                    <td>
+                        <#if trans.getSenderAccount()??> ${trans.sender.getUsername()}
+                        <#else></#if>
+                        <#if trans.getSenderAccount()??>(ACCOUNT# ${trans.getSenderAccount().getId()})
+                        <#else>АВТОПОПОЛНЕНИЕ</#if></td>
+                    <td>${trans.reciever.getUsername()}</td>
+                </tr>
+            </#if>
         <#else>
-            Part executed when there are 0 items
+            Транзакций нет
         </#list>
         </tbody>
     </table>
     <@p.pager url page/>
+
 <div class="container">
     <div class="row">
     <@act.addMoney/>
     <@act.newAcc/>
     <@act.transactTo/>
-
     </div>
 </div>
 
