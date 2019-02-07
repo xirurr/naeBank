@@ -2,10 +2,13 @@ package web.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -23,7 +26,9 @@ public class Transaction {
     private Long id;
 
     private LocalDate date;
-    @Min(0)
+
+
+    @Min(1)
     private BigDecimal ammount;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -49,7 +49,9 @@ public class AccountController {
             Model model)
     {
         if (!accountService.addUserAccount(user,account)) {
+/*
             model.addAttribute("usernameError", "You have reached Max account count");
+*/
             return "/transactions";
         }
         return "redirect:/transactions"; // заменить на обработчик ошибок при привышении количества аккаунтов

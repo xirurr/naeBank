@@ -22,6 +22,7 @@ import web.service.TrancationService;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/transactions")
@@ -41,15 +42,7 @@ public class TransactionController {
             @AuthenticationPrincipal User user,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
-        Page<Transaction> page;
-        List<User> userList = userRepo.findAll();
-        List<Account> accounts = accRepo.findByUser(user);
-
-        page = transRepo.findBySenderRecieverId(user.getId(), pageble);
-        model.addAttribute("users",userList);
-        model.addAttribute("accounts",accounts);
-        model.addAttribute("page", page);
-        model.addAttribute("url", "/transactions");
+        model = getSimpleTransactionList(user, pageble, model);
         return "transactions";
     }
 
@@ -67,19 +60,44 @@ public class TransactionController {
     }
 
 
-
     @PostMapping("/new")
     public String createTransaction(
             @AuthenticationPrincipal User user,
-          //  @RequestParam("reciever") String reciever,
             @Valid Transaction transaction,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             BindingResult bindingResult,
-            Model model)
-    {
-        if (!bindingResult.hasErrors() && transaction.getAmmount()!= BigDecimal.ZERO){
-             trancationService.newTransaction(transaction,user);
-             return "redirect:/transactions";
+            Model model) {
+        model = getSimpleTransactionList(user, pageble, model);
+
+        if (transaction.getAmmount()==null || transaction.getAmmount().compareTo(BigDecimal.ZERO) < 0) {
+            model.addAttribute("ammountError", "минимальная сумма перевода 1");
+            model.addAttribute(transaction.getType().name() + "Error", "");
+            return "/transactions";
         }
-        return "redirect:/transactions"; //Добавить отображение ошибок
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.addAttribute(transaction.getType().name() + "Error", "");
+            model.mergeAttributes(errorsMap);
+            return "/transactions";
+        }
+
+        if (!bindingResult.hasErrors()) {
+            trancationService.newTransaction(transaction, user);
+            return "redirect:/transactions";
+        }
+        return "/transactions"; //Добавить отображение ошибок
+    }
+
+    private Model getSimpleTransactionList(@AuthenticationPrincipal User user, @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble, Model model) {
+        Page<Transaction> page;
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+
+        page = transRepo.findBySenderRecieverId(user.getId(), pageble);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions");
+        return model;
     }
 }
