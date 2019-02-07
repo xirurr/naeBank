@@ -1,24 +1,30 @@
 <#include "security.ftl">
-
-
-<#macro newAcc>
+<#macro newAcc userD="!$nouser">
     <div class="col-sm">
         <a class="btn btn-primary" data-toggle="collapse" href="#addAccForm" role="button" aria-expanded="false"
            aria-controls="collapseExample">
             create new account
         </a>
         <div class="collapse <#--<#if message??>show</#if>-->" id="addAccForm">
-            <form action="/account/new" method="post">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Account</label>
-                    <div class="col-sm-5">
-                        <input class="form-control"
-                               type="text" name="tag" placeholder="Account name"
-                        />
-                    </div>
+            <form action=
+                  <#if userD?is_string>"/accounts/new"
+            <#else>"/accounts/${userD}/new/"</#if>
+
+            method="post">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Account</label>
+                <div class="col-sm-5">
+                    <input class="form-control"
+                           type="text" name="tag" placeholder="Account name"
+                    />
                 </div>
-                <button class="btn btn-primary" type="submit">CREATE</button>
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+            </div>
+            <button class="btn btn-primary" type="submit">CREATE</button>
+
+        <#--    <input type="hidden" name="user" value="<#if userD?is_string>${user.id}<#else>${userD.id}</#if>"/>-->
+
+
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             </form>
         </div>
     </div>
@@ -48,7 +54,8 @@
                 </label>
             </div>
 
-            <form class="form needs-validation" novalidate method="post" name="test" id="transactForm" action="/transactions/new">
+            <form class="form needs-validation" novalidate method="post" name="test" id="transactForm"
+                  action="/transactions/new">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">сумма перевода</label>
                     <div class="col-sm-5">
@@ -77,7 +84,7 @@
                 <div class="form-group row" id="recieverUserAccountField">
                     <label class="col-sm-2 col-form-label">на рассчетный счет:</label>
                     <div class="col-sm-5">
-                        <select class="selectpicker form-control"  data-show-subtext="true" data-live-search="true"
+                        <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true"
                                 id="TransactRecieverAccSelector" name="recieverAccount"
                                 data-toggle="popover" data-trigger="hover" data-content="Првоерьте аккаунты"
                         >
@@ -91,7 +98,7 @@
                     <label class="col-sm-2 col-form-label">пользователю:</label>
                     <div class="col-sm-5">
                         <select class="selectpicker form-control" data-show-subtext="true" data-live-search="true"
-                              id="TransactUserNameSelector"  name="reciever">
+                                id="TransactUserNameSelector" name="reciever">
                             <#list users as userA>
                                 <#if name != userA.username>
                                     <option data-subtext="<b>${userA.username}</b>">${userA.id}</option>
@@ -119,13 +126,15 @@
             checkState();
 
         }
+
         function accToUserTrans() {
             $("#recieverField").show();
             $("#recieverUserAccountField").hide();
             $("input[name=type]").val("SEND");
             checkState();
         }
-        function checkState () {
+
+        function checkState() {
             var sender = document.getElementById("TransactSenderAccSelector");
             var reciever = document.getElementById("TransactRecieverAccSelector");
             var submitButton = document.getElementById("TransactSubmitButton");
@@ -138,16 +147,16 @@
                     submitButton.removeAttribute("disabled", true);
                 }
             }
-            if (toUser){
+            if (toUser) {
                 submitButton.removeAttribute("disabled", true);
             }
         };
         (function () {
             var reciever = document.getElementById("TransactRecieverAccSelector");
             var sender = document.getElementById("TransactSenderAccSelector");
-            window.onload=checkState;
-            reciever.onchange=checkState;
-            sender.onchange=checkState;
+            window.onload = checkState;
+            reciever.onchange = checkState;
+            sender.onchange = checkState;
         })();
     </script>
 </#macro>

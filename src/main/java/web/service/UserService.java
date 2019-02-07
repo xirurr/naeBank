@@ -1,14 +1,19 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import web.Repositories.AccRepo;
 import web.Repositories.UserRepo;
+import web.domain.Account;
 import web.domain.Role;
 import web.domain.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -18,6 +23,8 @@ public class UserService implements UserDetailsService {
     private UserRepo userRepo;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private AccRepo accRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -35,15 +42,12 @@ public class UserService implements UserDetailsService {
             return false;
         }
         user.setActive(false);
-        Calendar cal = Calendar.getInstance();
-
-        user.setDateOfBirth(LocalDate.of(1992,2,8));
+        user.setDateOfBirth(LocalDate.of(1992, 2, 8));
         user.setRoles(Collections.singleton(Role.USER));
         activateUser(user);
-       // user.setPassword(passwordEncoder.encode(user.getPassword()));
-       // userRepo.save(user);
         return true;
     }
+
     public boolean activateUser(User user) {
         user.setActive(true);
         userRepo.save(user);
@@ -51,7 +55,19 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public List<User> findAll() {
-        return userRepo.findAll();
+    public BigDecimal getAccSumm(User user) {
+        final BigDecimal[] summ = {BigDecimal.ZERO};
+        List<Account> accounts = accRepo.findByUser(user);
+        accounts.forEach(o -> {
+            summ[0] = summ[0].add(o.getAmmount());
+        });
+
+        return summ[0];
+    }
+
+
+    public Page<User> getUsersWithSumm(Page<User> page){
+        page.forEach(o->o.setSumm(getAccSumm(o)));
+        return page;
     }
 }

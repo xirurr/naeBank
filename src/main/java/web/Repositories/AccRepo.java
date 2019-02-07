@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface AccRepo extends JpaRepository <Account,Long> {
     List<Account> findByUser(User user);
+
 }

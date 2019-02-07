@@ -34,7 +34,6 @@ public class TransactionController {
     UserRepo userRepo;
     @Autowired
     AccRepo accRepo;
-
     @Autowired
     TrancationService trancationService;
 
@@ -43,7 +42,7 @@ public class TransactionController {
             @AuthenticationPrincipal User user,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
-        model = getSimpleTransactionList(user, pageble, model,"/transactions");
+        model = trancationService.getSimpleTransactionList(user, pageble, model,"/transactions");
         return "transactions";
     }
 
@@ -55,12 +54,8 @@ public class TransactionController {
             Model model) {
         Page<Transaction> page;
         User user = userRepo.getOne(id);
-       /* page = transRepo.findBySenderRecieverId(id, pageble);
-        model.addAttribute("page", page);
-        model.addAttribute("url", "/transactions");*/
-        model = getSimpleTransactionList(user, pageble, model,"/transactions/"+id);
+        model = trancationService.getSimpleTransactionList(user, pageble, model,"/transactions/"+id);
         model.addAttribute("id", id);
-
         return "transactions";
     }
 
@@ -72,7 +67,7 @@ public class TransactionController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             BindingResult bindingResult,
             Model model) {
-        model = getSimpleTransactionList(user, pageble, model,"/transactions");
+        model = trancationService.getSimpleTransactionList(user, pageble, model,"/transactions");
 
         if (transaction.getAmmount()==null || transaction.getAmmount().compareTo(BigDecimal.ZERO) < 0) {
             model.addAttribute("ammountError", "минимальная сумма операций = 1");
@@ -92,16 +87,5 @@ public class TransactionController {
         return "/transactions";
     }
 
-    private Model getSimpleTransactionList(User user, Pageable pageble, Model model, String link) {
-        Page<Transaction> page;
-        List<User> userList = userRepo.findAll();
-        List<Account> accounts = accRepo.findByUser(user);
 
-        page = transRepo.findBySenderRecieverId(user.getId(), pageble);
-        model.addAttribute("users", userList);
-        model.addAttribute("accounts", accounts);
-        model.addAttribute("page", page);
-        model.addAttribute("url", link);
-        return model;
-    }
 }

@@ -13,6 +13,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/transactions">Transactions</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts">accounts</a>
+                </li>
             </#if>
             <#if isAdmin>
                 <li class="nav-item">

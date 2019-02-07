@@ -12,16 +12,21 @@
             <th scope="col">AGE</th>
             <th scope="col">Date of birth</th>
             <th scope="col">Transactions</th>
+            <th scope="col">Accounts</th>
+            <th scope="col">Summary</th>
+
         </tr>
         </thead>
         <tbody>
         <#list page.content as user>
             <tr>
                 <th scope="row">${user.id}</th>
-                <td>${user.username}</td>
+                <td><a href="/accounts/${user.id}">${user.username}</td>
                 <td>${user.age}</td>
                 <td>${user.getDateOfBirth()}</td>
                 <td><a href="/transactions/${user.id}"> transactions list</a></td>
+                <td><a href="/accounts/${user.id}"> accounts list</a></td>
+                <td>${user.summ}</td>
             </tr>
         </#list>
         </tbody>

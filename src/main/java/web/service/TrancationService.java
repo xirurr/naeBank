@@ -1,9 +1,13 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import web.Repositories.AccRepo;
 import web.Repositories.TransRepo;
+import web.Repositories.UserRepo;
 import web.domain.Account;
 import web.domain.Transaction;
 import web.domain.TransactionType;
@@ -18,6 +22,8 @@ public class TrancationService {
     TransRepo transRepo;
     @Autowired
     AccRepo accRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public boolean newTransaction(Transaction transaction, User user) {
         transaction.setDate(LocalDate.now());
@@ -60,6 +66,19 @@ public class TrancationService {
         Account recieverAccount = transaction.getRecieverAccount();
         recieverAccount.setAmmount(recieverAccount.getAmmount().add(transaction.getAmmount()));
         return true;
+    }
+
+    public Model getSimpleTransactionList(User user, Pageable pageble, Model model, String link) {
+        Page<Transaction> page;
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+
+        page = transRepo.findBySenderRecieverId(user.getId(), pageble);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url", link);
+        return model;
     }
 
 }

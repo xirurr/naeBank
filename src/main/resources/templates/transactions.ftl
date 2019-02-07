@@ -3,9 +3,7 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/actions.ftl" as act>
 
-<#macro TransTable>
 
-</#macro>
 <@c.page>
 
     <@p.pager url page/>

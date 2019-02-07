@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
@@ -41,6 +42,10 @@ public class User implements UserDetails {
     @Transient
     private String password2;
 
+    @Transient
+    private BigDecimal summ;
+
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -52,6 +57,16 @@ public class User implements UserDetails {
     private int age;
 
     private boolean active;
+
+
+    public BigDecimal getSumm() {
+        return summ;
+    }
+
+    public void setSumm(BigDecimal summ) {
+        this.summ = summ;
+    }
+
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
@@ -143,15 +158,11 @@ public class User implements UserDetails {
     }
 
     public int getAge() {
-      /*  LocalDate birthDate = dateOfBirth.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();*/
         LocalDate currentDate = LocalDate.now();
         return Period.between(dateOfBirth, currentDate).getYears();
     }
 
     public void setAge(){
-     /*   LocalDate birthDate = dateOfBirth.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDate();*/
         LocalDate currentDate = LocalDate.now();
         age = Period.between(dateOfBirth, currentDate).getYears();
     }
