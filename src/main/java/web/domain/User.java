@@ -18,8 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-@ToString(of ={"id,username"})
-@EqualsAndHashCode(of={"id"})
+@EqualsAndHashCode(of = {"id"})
 public class User implements UserDetails {
     public User() {
     }
@@ -58,6 +57,9 @@ public class User implements UserDetails {
 
     private boolean active;
 
+
+    @NotBlank(message = "adress cannot be blank")
+    private String adress;
 
     public BigDecimal getSumm() {
         return summ;
@@ -162,11 +164,22 @@ public class User implements UserDetails {
         return Period.between(dateOfBirth, currentDate).getYears();
     }
 
-    public void setAge(){
+    public void setAge() {
         LocalDate currentDate = LocalDate.now();
         age = Period.between(dateOfBirth, currentDate).getYears();
     }
 
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
 
 
+    @Override
+    public String toString() {
+        return username;
+    }
 }

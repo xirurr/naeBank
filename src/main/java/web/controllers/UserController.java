@@ -8,21 +8,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import web.Repositories.AccRepo;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import web.Repositories.UserRepo;
 import web.domain.User;
 import web.service.UserService;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 @Controller
 @RequestMapping("users")
 public class UserController {
-
 
     @Autowired
     public UserService userService;
@@ -36,10 +31,8 @@ public class UserController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         Page<User> page;
-        page = userRepo.findAll(pageble);
-        page = userService.getUsersWithSumm(page);
-        model.addAttribute("page", page);
-        model.addAttribute("url", "/users");
+        model = userService.getUsersWithSumm(pageble,model);
+
         return "userList";
     }
 }

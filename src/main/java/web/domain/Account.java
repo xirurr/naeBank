@@ -10,26 +10,31 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "account")
-@ToString(of ={"id,ammount,user,tag"})
-@EqualsAndHashCode(of={"id"})
+@EqualsAndHashCode(of = {"id"})
 public class Account {
     public Account(User user) {
         this.user = user;
-        ammount=BigDecimal.ZERO;
+        ammount = BigDecimal.ZERO;
     }
 
     public Account() {
     }
+
+    public Account(BigDecimal ammount, User user, String tag) {
+        this.ammount = ammount;
+        this.user = user;
+        this.tag = tag;
+    }
+
     @Id
-    @Min(0)
     @GeneratedValue
     private Long id;
 
-    @Min(0)
+
     private BigDecimal ammount;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 
@@ -65,5 +70,13 @@ public class Account {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public String toString() {
+        if (tag != null) {
+            return id+tag;
+        }
+        return id+"";
     }
 }

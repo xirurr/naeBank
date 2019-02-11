@@ -19,7 +19,10 @@
             </#if>
             <#if isAdmin>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users">User-list</a>
+                    <a class="nav-link" href="/users">User-list<b>(admin)</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/transactions/all">Transactions-all<b>(admin)</b></a>
                 </li>
             </#if>
         </ul>

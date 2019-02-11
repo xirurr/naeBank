@@ -16,6 +16,9 @@ public interface TransRepo extends JpaRepository<Transaction, Long> {
 
     @Query(value = "SELECT * FROM transaction WHERE reciever_Id = :id OR sender_Id = :id", nativeQuery = true)
     Page<Transaction> findBySenderRecieverId(@Param("id") Long id, Pageable pageable);
-
+    @Query(value = "SELECT * FROM transaction WHERE reciever_Id = :id OR sender_Id = :id", nativeQuery = true)
+    List<Transaction> findBySenderRecieverId(@Param("id") Long id);
     List<Transaction> findAll();
+
+
 }

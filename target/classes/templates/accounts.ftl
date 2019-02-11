@@ -2,8 +2,19 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/actions.ftl" as act>
 
-<@c.page>
 
+<@c.page>
+<div >
+    <a class="btn btn-primary" data-toggle="collapse" href="#addAccForm" role="button" aria-expanded="false"
+       aria-controls="collapseExample">
+        добавить рассчетный счет
+    </a>
+    <div class="collapse" id="addAccForm">
+            <div class="form-inline">
+    <@act.newAcc userD.id/>
+            </div>
+        </div>
+</div>
     <table class="table" id="transaction-list">
     <thead>
     <tr>
@@ -26,5 +37,3 @@
 
 
 </@c.page>
-
-<@act.newAcc userD.id/>

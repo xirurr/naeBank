@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "transaction")
-@ToString(of ={"id,date,ammount,sender,reciever"})
 @EqualsAndHashCode(of={"id"})
 public class Transaction {
     public Transaction() {
@@ -35,7 +34,6 @@ public class Transaction {
     private Account senderAccount;
 
     private TransactionType type;
-
 
     @OneToOne
     @JoinColumn(name ="reciever_account")

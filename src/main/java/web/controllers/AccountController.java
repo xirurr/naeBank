@@ -1,7 +1,7 @@
 package web.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -9,16 +9,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import web.Repositories.AccRepo;
 import web.Repositories.UserRepo;
 import web.domain.Account;
-import web.domain.Transaction;
 import web.domain.User;
 import web.service.AccountService;
+import web.service.TransactionService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,8 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    TransactionService transactionService;
 
     @GetMapping("")
     public String all(
@@ -54,11 +57,12 @@ public class AccountController {
     @PostMapping("{id}/new")
     public String addAccountToOtherPerson(
             @PathVariable Long id,
-            @Valid Account account,
+            Account account,
             Model model) {
         User user = userRepo.getOne(id);
         accountService.addUserAccount(user, account);
         model = accountService.getUserAccs(model, user);
+        model.addAttribute("message","новый счет создан");
         return "accounts";
     }
 
@@ -67,12 +71,16 @@ public class AccountController {
     @PostMapping("/new")
     public String addAccount(
             @AuthenticationPrincipal User user,
-            @Valid Account account,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            Account account,
             Model model) {
-        if (!accountService.addUserAccount(user, account)) {
-            return "/transactions";
-        }
-        return "redirect:/transactions";
+        accountService.addUserAccount(user, account);
+
+        List<Account> accounts = accRepo.findByUser(user);
+        model = transactionService.getUserTransList(user, pageble,model,"/transactions");
+        model.addAttribute("message","новый счет создан");
+
+        return "transactions";
     }
 
 
