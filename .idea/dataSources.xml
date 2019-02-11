@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/banking</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="defaultdb@pg-11f69b5c-xirurr-da8a.aivencloud.com" uuid="bbb539ba-817f-4cbf-a4b7-418231854759">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://pg-11f69b5c-xirurr-da8a.aivencloud.com:29274/defaultdb?sslmode=require</jdbc-url>
+    </data-source>
   </component>
 </project>

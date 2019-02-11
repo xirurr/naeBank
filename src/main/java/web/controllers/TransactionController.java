@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import web.Repositories.AccRepo;
 import web.Repositories.TransRepo;
 import web.Repositories.UserRepo;
-import web.domain.*;
+import web.domain.Account;
+import web.domain.Role;
+import web.domain.Transaction;
+import web.domain.User;
 import web.service.TransactionService;
 
 import java.math.BigDecimal;
@@ -40,7 +43,7 @@ public class TransactionController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         model = transactionService.getUserTransList(user, pageble, model, "/transactions");
-        model.addAttribute("id",user.getId());
+        model.addAttribute("id", user.getId());
         return "transactions";
     }
 
@@ -54,7 +57,7 @@ public class TransactionController {
         User user = userRepo.getOne(id);
         model = transactionService.getUserTransList(user, pageble, model, "/transactions/" + id);
         model.addAttribute("id", id);
-        model.addAttribute("XMD","true");
+        model.addAttribute("XMD", "true");
         return "transactions";
     }
 
@@ -68,7 +71,6 @@ public class TransactionController {
         model = transactionService.getAllTransList(pageble, model);
         return "transactions";
     }
-
 
 
     @PostMapping("/new")
@@ -126,7 +128,7 @@ public class TransactionController {
             @RequestParam("senderFilter") String senderFilter,
             @RequestParam("recieverFilter") String recieverFilter,
             Model model
-    ){
+    ) {
         user = userRepo.getOne(id);
         List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(user, idFilter, datefilter, ammount, senderFilter, recieverFilter);
         Page<Transaction> page = new PageImpl<>(filteredTransactions);
@@ -135,10 +137,11 @@ public class TransactionController {
         model.addAttribute("page", page);
         model.addAttribute("accounts", accountList);
         model.addAttribute("users", userList);
-        model.addAttribute("url","/transactions");
-        model.addAttribute("id",id);
-        if (user.getRoles().contains(Role.ADMIN)){
-        model.addAttribute("XMD","true");}
+        model.addAttribute("url", "/transactions");
+        model.addAttribute("id", id);
+        if (user.getRoles().contains(Role.ADMIN)) {
+            model.addAttribute("XMD", "true");
+        }
         return "/transactions";
     }
 
@@ -152,7 +155,7 @@ public class TransactionController {
             @RequestParam("senderFilter") String senderFilter,
             @RequestParam("recieverFilter") String recieverFilter,
             Model model
-    ){
+    ) {
         List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(null, idFilter, datefilter, ammount, senderFilter, recieverFilter);
         Page<Transaction> page = new PageImpl<>(filteredTransactions);
         List<Account> accountList = accRepo.findAll();

@@ -1,7 +1,6 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +15,8 @@ import web.domain.Role;
 import web.domain.User;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -66,10 +65,10 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public Model getUsersWithSumm(Pageable pageble, Model model){
+    public Model getUsersWithSumm(Pageable pageble, Model model) {
         Page<User> page;
         page = userRepo.findAll(pageble);
-        page.forEach(o->o.setSumm(getAccSumm(o)));
+        page.forEach(o -> o.setSumm(getAccSumm(o)));
         model.addAttribute("page", page);
         model.addAttribute("url", "/users");
         return model;

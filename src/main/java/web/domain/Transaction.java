@@ -1,7 +1,6 @@
 package web.domain;
 
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

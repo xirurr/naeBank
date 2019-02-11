@@ -97,8 +97,7 @@ public class TransactionService {
         List<Transaction> allTransList;
         if (user == null) {
             allTransList = transRepo.findAll();
-        }
-        else {
+        } else {
             allTransList = transRepo.findBySenderRecieverId(user.getId());
         }
         if (!idFilter.equals("")) {
@@ -139,9 +138,9 @@ public class TransactionService {
     private List<Transaction> filterBySender(List<Transaction> allTransList, String senderFilter) {
         allTransList.removeIf(o ->
                 !o.getSender().toString().toLowerCase().contains(senderFilter.toLowerCase()) &&
-                        (o.getSenderAccount()!=null && !o.getSenderAccount().toString().toLowerCase().contains(senderFilter.toLowerCase()))
-                        );
-        allTransList.removeIf(o->o.getSenderAccount()==null);
+                        (o.getSenderAccount() != null && !o.getSenderAccount().toString().toLowerCase().contains(senderFilter.toLowerCase()))
+        );
+        allTransList.removeIf(o -> o.getSenderAccount() == null);
         return allTransList;
     }
 
@@ -154,13 +153,13 @@ public class TransactionService {
         String[] split = datefilter.split("/");
         LocalDate one = LocalDate.parse(split[0]);
         LocalDate two = LocalDate.parse(split[1]);
-        if (one.equals(two)){
-            allTransList.removeIf(o->!o.getDate().equals(one));
+        if (one.equals(two)) {
+            allTransList.removeIf(o -> !o.getDate().equals(one));
         }
 
         allTransList.removeIf(o -> !(
-                (o.getDate().isAfter(one)||o.getDate().isEqual(one)) &&
-                        (o.getDate().isBefore(two)|| o.getDate().isEqual(two))));
+                (o.getDate().isAfter(one) || o.getDate().isEqual(one)) &&
+                        (o.getDate().isBefore(two) || o.getDate().isEqual(two))));
         return allTransList;
     }
 

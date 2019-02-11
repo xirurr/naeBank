@@ -78,4 +78,3 @@ $(function () {
 $( document ).ready(function() {
     checkState();
 });
-

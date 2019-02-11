@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import web.Repositories.AccRepo;
-import web.Repositories.TransRepo;
 import web.domain.Account;
-import web.domain.Transaction;
 import web.domain.User;
 
 import java.math.BigDecimal;
@@ -37,7 +35,6 @@ public class AccountService {
         model.addAttribute("list", accounts);
         return model;
     }
-
 
 
 }

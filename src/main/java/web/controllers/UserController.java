@@ -5,19 +5,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import web.Repositories.UserRepo;
 import web.domain.User;
 import web.service.UserService;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("users")
 public class UserController {
+
 
     @Autowired
     public UserService userService;
@@ -25,14 +27,52 @@ public class UserController {
     public UserRepo userRepo;
 
 
+    @GetMapping
+    public List<User> list() {
+        return userRepo.findAll();
+    }
+
     @GetMapping()
-    @PreAuthorize("hasAuthority('ADMIN')")
     public String main(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
         Page<User> page;
-        model = userService.getUsersWithSumm(pageble,model);
-
+        page = userRepo.findAll(pageble);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         return "userList";
     }
+
+
+
+
+
+   /* @PostMapping
+    public boolean createUser(
+            @RequestParam("name") String name,
+            @RequestParam("password") String password,
+            @RequestBody(required = false) Date dateOfBirth
+                                     ){
+        User user = new User();
+        user.setPassword(password);
+        user.setUsername(name);
+        user.setDateOfBirth(new Date(1992,2,8));
+        userService.addUser(user);
+        return true;
+    }*/
+    /*
+    @PostMapping
+    public boolean createUser(
+            @RequestParam String name,
+            @RequestParam String password,
+            @RequestBody(required = false) Date dateOfBirth
+                                     ){
+        User user = new User();
+        user.setPassword(password);
+        user.setUsername(name);
+        user.setDateOfBirth(new Date(1992,2,8));
+        userService.addUser(user);
+        return true;
+    }*/
+
 }

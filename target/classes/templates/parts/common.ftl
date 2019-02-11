@@ -44,9 +44,7 @@
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<03819a19-1153-4a87-8e83-a9d84fb6384d>"
             type="text/javascript"></script>
     <script src="/static/js/hideAndSeek.js"></script>
-<#--
     <script src="/static/js/suggesst.js"></script>
--->
 
     </body>
     </html>

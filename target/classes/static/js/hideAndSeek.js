@@ -61,7 +61,6 @@ $(function () {
 (function () {
     var reciever = document.getElementById("TransactRecieverAccSelector");
     var sender = document.getElementById("TransactSenderAccSelector");
-    window.onload = checkState;
     reciever.onchange = checkState;
     sender.onchange = checkState;
 
@@ -79,4 +78,3 @@ $(function () {
 $( document ).ready(function() {
     checkState();
 });
-

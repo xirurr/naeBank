@@ -3,7 +3,6 @@ package web.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
