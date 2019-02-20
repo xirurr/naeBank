@@ -120,7 +120,7 @@ public class UserServiceTest {
                 .when(userRepo)
                 .findAll(pageable);
 
-        Page<User> page2 = userService.getUsersWithSumm(pageable, model);
+        Page<User> page2 = userService.getUsersWithSumm(pageable);
 
         Assert.assertEquals(page2.getContent().get(0).getSumm().toString(), "1000");
         Assert.assertEquals(page2.getContent().get(1).getSumm().toString(), "2000");

@@ -13,26 +13,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.Repositories.UserRepo;
 import web.domain.User;
+import web.service.IFaces.IUserService;
 import web.service.UserService;
 
 @Controller
 @RequestMapping("users")
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
 
     public UserController(UserService s,UserRepo r) {
         this.userService = s;
     }
-
-
-
 
     @GetMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
     public String main(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
             Model model) {
-        Page<User> page = userService.getUsersWithSumm(pageble,model);
+        Page<User> page = userService.getUsersWithSumm(pageble);
         model.addAttribute("page", page);
         model.addAttribute("url", "/users");
         return "userList";

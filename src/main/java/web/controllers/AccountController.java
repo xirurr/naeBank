@@ -21,6 +21,8 @@ import web.domain.Account;
 import web.domain.Transaction;
 import web.domain.User;
 import web.service.AccountService;
+import web.service.IFaces.IAccountService;
+import web.service.IFaces.ITransactionService;
 import web.service.TransactionService;
 
 import java.util.List;
@@ -29,9 +31,9 @@ import java.util.List;
 @RequestMapping("/accounts")
 public class AccountController {
     private final AccRepo accRepo;
-    private final AccountService accountService;
+    private final IAccountService accountService;
     private final UserRepo userRepo;
-    private final TransactionService transactionService;
+    private final ITransactionService transactionService;
     private final TransRepo transRepo;
 
     public AccountController(AccRepo ar, AccountService as, UserRepo ur, TransactionService ts, TransRepo tr) {

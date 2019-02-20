@@ -13,13 +13,14 @@ import web.Repositories.UserRepo;
 import web.domain.Account;
 import web.domain.Transaction;
 import web.domain.User;
+import web.service.IFaces.ITransactionService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TransactionService {
+public class TransactionService implements ITransactionService {
     private final TransRepo transRepo;
     private final AccRepo accRepo;
     private final UserRepo userRepo;
@@ -33,7 +34,7 @@ public class TransactionService {
         this.filter = f;
     }
 
-
+    @Override
     public boolean newTransaction(Transaction transaction, User user) {
         transaction.setDate(LocalDate.now());
         transaction.setSender(user);
@@ -62,7 +63,7 @@ public class TransactionService {
 
         return true;
     }
-
+    @Override
     public boolean trancast(Transaction transaction) {
         Account senderAccount = transaction.getSenderAccount();
         Account recieverAccount = transaction.getRecieverAccount();
@@ -72,7 +73,7 @@ public class TransactionService {
         accRepo.save(recieverAccount);
         return true;
     }
-
+    @Override
     public boolean specialTrans(Transaction transaction) {
         Account recieverAccount = transaction.getRecieverAccount();
         recieverAccount.setAmmount(recieverAccount.getAmmount().add(transaction.getAmmount()));
@@ -80,7 +81,7 @@ public class TransactionService {
         return true;
     }
 
-
+    @Override
     public Page<Transaction> getFilteredTransactions(User user, String idFilter, String datefilter, String ammount, String senderFilter, String recieverFilter, Pageable pageable) {
         String userId;
         Page<Transaction> filteredAll;

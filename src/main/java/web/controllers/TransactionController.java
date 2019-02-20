@@ -19,6 +19,7 @@ import web.domain.Account;
 import web.domain.Role;
 import web.domain.Transaction;
 import web.domain.User;
+import web.service.IFaces.ITransactionService;
 import web.service.TransactionService;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class TransactionController {
     private final TransRepo transRepo;
     private final UserRepo userRepo;
     private final AccRepo accRepo;
-    private final TransactionService transactionService;
+    private final ITransactionService transactionService;
 
     public TransactionController(TransRepo tr, UserRepo ur, AccRepo ar, TransactionService ts) {
         this.transRepo =tr;

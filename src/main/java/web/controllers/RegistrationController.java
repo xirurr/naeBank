@@ -84,7 +84,7 @@ public class RegistrationController {
         if (outerUrl.contains("nourl")) {
             return "login";
         } else {
-            Page<User> page = userService.getUsersWithSumm(pageble, model);
+            Page<User> page = userService.getUsersWithSumm(pageble);
             model.addAttribute("page", page);
             model.addAttribute("url", "/users");
             return "userList";

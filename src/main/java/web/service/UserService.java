@@ -13,19 +13,20 @@ import web.Repositories.UserRepo;
 import web.domain.Account;
 import web.domain.Role;
 import web.domain.User;
+import web.service.IFaces.IUserService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, IUserService {
 
     private final UserRepo userRepo;
     private final AccountService accountService;
     private final AccRepo accRepo;
 
-    public UserService(UserRepo ur,AccountService as,AccRepo ar) {
+    public UserService(UserRepo ur, AccountService as, AccRepo ar) {
         this.userRepo = ur;
         this.accountService = as;
         this.accRepo = ar;
@@ -42,6 +43,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    @Override
     public boolean addUser(User user) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
         if (userFromDb != null) {
@@ -53,6 +55,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    @Override
     public boolean activateUser(User user) {
         user.setActive(true);
         userRepo.save(user);
@@ -60,6 +63,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    @Override
     public BigDecimal getAccSumm(User user) {
         final BigDecimal[] summ = {BigDecimal.ZERO};
         List<Account> accounts = accRepo.findByUser(user);
@@ -69,12 +73,11 @@ public class UserService implements UserDetailsService {
         return summ[0];
     }
 
-
-    public Page<User> getUsersWithSumm(Pageable pageble, Model model) {
+    @Override
+    public Page<User> getUsersWithSumm(Pageable pageble) {
         Page<User> page;
         page = userRepo.findAll(pageble);
         page.forEach(o -> o.setSumm(getAccSumm(o)));
-
         return page;
     }
 }
