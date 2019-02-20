@@ -14,7 +14,6 @@
     <div class="container-fluid">
     <div class="row">
    <div class="col">
-
     </div>
     <div class="col">
         <#if !XMD??>
@@ -109,17 +108,10 @@
             </form>
             </div>
             </div>
-
-
             </div>
 
             <div class="col">
-                <table id="table" class="table-striped table-bordered" data-toggle="table"
-                       data-search="false"
-                       data-filter-control="true"
-                       data-click-to-select="true"
-                       data-toolbar="#toolbar"
-                >
+                <table id="table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">ID</th>
@@ -128,7 +120,6 @@
                         <th data-field="sender" data-sortable="true">Sender</th>
                         <th data-field="reciver" data-sortable="true">Reciever</th>
                     </tr>
-
                     </thead>
                     <tbody>
                     <#list page as trans>

@@ -14,7 +14,6 @@
     <div class="container-fluid">
     <div class="row">
    <div class="col">
-
     </div>
     <div class="col">
         <#if !XMD??>
@@ -100,30 +99,19 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text btn btn-primary" id="autoCheckButton">АВТОПОПОЛНЕНИЕ</div>
                         </div>
-
                     </div>
-
                     <label class="col col-form-label">reciver</label>
-
                     <input class="form-control" type="text" name="recieverFilter" value=""/>
-
                 </div>
                 <button class="btn btn-primary" type="submit">filter now</button>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             </form>
             </div>
             </div>
-
-
             </div>
 
             <div class="col">
-                <table id="table" class="table-striped table-bordered" data-toggle="table"
-                       data-search="false"
-                       data-filter-control="true"
-                       data-click-to-select="true"
-                       data-toolbar="#toolbar"
-                       width="90%">
+                <table id="table" class="table table-striped table-bordered">
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">ID</th>
@@ -132,7 +120,6 @@
                         <th data-field="sender" data-sortable="true">Sender</th>
                         <th data-field="reciver" data-sortable="true">Reciever</th>
                     </tr>
-
                     </thead>
                     <tbody>
                     <#list page as trans>
@@ -175,6 +162,5 @@
                     </tbody>
                 </table>
             </div>
-
 
 </@c.page>
