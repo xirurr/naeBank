@@ -95,8 +95,13 @@
                            placeholder="Input ammount" required/>
 
                     <label class="col col-form-label">sender</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="senderFilter" id="senderFilter" value=""/>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text btn btn-primary" id="autoCheckButton">АВТОПОПОЛНЕНИЕ</div>
+                        </div>
 
-                    <input class="form-control" type="text" name="senderFilter" value=""/>
+                    </div>
 
                     <label class="col col-form-label">reciver</label>
 
@@ -134,7 +139,7 @@
                             <tr>
                                 <td>${trans.id}</td>
                                 <td>${trans.date}</td>
-                                <td>${trans.ammount}</td>
+                                <td>${trans.ammount?string[".00"]}</td>
                                 <td>
                                     <#if trans.getSenderAccount()??>user: ${trans.sender.username}  acc# (${trans.getSenderAccount().getId()})
                                     <#else>АВТОПОПОЛНЕНИЕ</#if></td>
@@ -154,7 +159,7 @@
                             <tr>
                                 <td>${trans.id}</td>
                                 <td>${trans.date}</td>
-                                <td>${trans.ammount}</td>
+                                <td>${trans.ammount?string[".00"]}</td>
                                 <td>
                                     <#if trans.getSenderAccount()??> ${trans.sender.getUsername()}
                                     <#else></#if>

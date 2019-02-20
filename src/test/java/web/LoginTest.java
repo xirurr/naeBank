@@ -24,10 +24,6 @@ public class LoginTest {
     @Autowired
     private MockMvc mockMvc;
 
-
-    @Autowired
-    private MainController mainController;
-
     @Test
     public void contextLoad() throws Exception{
         this.mockMvc.perform(get("/"))
@@ -45,7 +41,7 @@ public class LoginTest {
     }
     @Test
     public void correctLoginTest() throws Exception{
-        this.mockMvc.perform(formLogin().user("1").password("1"))
+        this.mockMvc.perform(formLogin().user("test").password("test"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));

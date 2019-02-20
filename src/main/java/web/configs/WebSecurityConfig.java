@@ -15,11 +15,14 @@ import web.service.UserService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public WebSecurityConfig(UserService s, PasswordEncoder e) {
+        this.userService = s;
+        this.passwordEncoder = e;
+    }
 
 
     @Override

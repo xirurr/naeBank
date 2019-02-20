@@ -20,12 +20,17 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private AccRepo accRepo;
+
+    private final UserRepo userRepo;
+    private final AccountService accountService;
+    private final AccRepo accRepo;
+
+    public UserService(UserRepo ur,AccountService as,AccRepo ar) {
+        this.userRepo = ur;
+        this.accountService = as;
+        this.accRepo = ar;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -65,12 +70,11 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public Model getUsersWithSumm(Pageable pageble, Model model) {
+    public Page<User> getUsersWithSumm(Pageable pageble, Model model) {
         Page<User> page;
         page = userRepo.findAll(pageble);
         page.forEach(o -> o.setSumm(getAccSumm(o)));
-        model.addAttribute("page", page);
-        model.addAttribute("url", "/users");
-        return model;
+
+        return page;
     }
 }

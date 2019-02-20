@@ -1,6 +1,7 @@
 package web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,11 +24,15 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+    private final UserService userService;
+    private final UserRepo userRepo;
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    public UserRepo userRepo;
+    public RegistrationController(UserService us,UserRepo ur) {
+        this.userRepo = ur;
+        this.userService = us;
+    }
+
+
 
 
     @GetMapping("/registration")
@@ -79,7 +84,9 @@ public class RegistrationController {
         if (outerUrl.contains("nourl")) {
             return "login";
         } else {
-            model = userService.getUsersWithSumm(pageble, model);
+            Page<User> page = userService.getUsersWithSumm(pageble, model);
+            model.addAttribute("page", page);
+            model.addAttribute("url", "/users");
             return "userList";
         }
     }

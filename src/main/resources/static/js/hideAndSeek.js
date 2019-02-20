@@ -1,3 +1,10 @@
+$('#autoCheckButton').on( "click", function () {
+    $('#senderFilter').toggle();
+    $('#senderFilter').val("АВТОПОПОЛНЕНИЕ");
+    if ($('#senderFilter').is(":visible")){
+        $('#senderFilter').val("");
+    }
+});
 function accToAccTrans() {
     $("#recieverField").hide();
     $("#recieverUserAccountField").show();
@@ -78,3 +85,5 @@ $(function () {
 $( document ).ready(function() {
     checkState();
 });
+
+

@@ -12,8 +12,12 @@ import java.util.List;
 
 @Service
 public class AccountService {
-    @Autowired
-    private AccRepo accRepo;
+    private final AccRepo accRepo;
+
+    public AccountService(AccRepo ar) {
+        this.accRepo = ar;
+    }
+
 
     public boolean addUserAccount(User user) {
         Account account = new Account(user);
@@ -27,15 +31,5 @@ public class AccountService {
         accRepo.save(account);
         return true;
     }
-
-
-    public Model getUserAccs(Model model, User user) {
-        List<Account> accounts = accRepo.findByUser(user);
-        model.addAttribute("userD", user);
-        model.addAttribute("list", accounts);
-        return model;
-    }
-
-
 }
 

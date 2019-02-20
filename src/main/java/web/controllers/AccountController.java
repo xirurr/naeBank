@@ -2,6 +2,7 @@ package web.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.Repositories.AccRepo;
+import web.Repositories.TransRepo;
 import web.Repositories.UserRepo;
 import web.domain.Account;
+import web.domain.Transaction;
 import web.domain.User;
 import web.service.AccountService;
 import web.service.TransactionService;
@@ -25,21 +28,28 @@ import java.util.List;
 @Controller
 @RequestMapping("/accounts")
 public class AccountController {
+    private final AccRepo accRepo;
+    private final AccountService accountService;
+    private final UserRepo userRepo;
+    private final TransactionService transactionService;
+    private final TransRepo transRepo;
 
-    @Autowired
-    AccRepo accRepo;
-    @Autowired
-    AccountService accountService;
-    @Autowired
-    UserRepo userRepo;
-    @Autowired
-    TransactionService transactionService;
+    public AccountController(AccRepo ar, AccountService as, UserRepo ur, TransactionService ts, TransRepo tr) {
+        this.accRepo = ar;
+        this.accountService = as;
+        this.userRepo=ur;
+        this.transactionService=ts;
+        this.transRepo = tr;
+    }
+
 
     @GetMapping("")
     public String all(
             @AuthenticationPrincipal User user,
             Model model) {
-        model = accountService.getUserAccs(model, user);
+        List<Account> accounts = accRepo.findByUser(user);
+        model.addAttribute("userD", user);
+        model.addAttribute("list", accounts);
         return "accounts";
     }
 
@@ -49,7 +59,9 @@ public class AccountController {
             @PathVariable Long id,
             Model model) {
         User user = userRepo.getOne(id);
-        model = accountService.getUserAccs(model, user);
+        List<Account> accounts = accRepo.findByUser(user);
+        model.addAttribute("userD", user);
+        model.addAttribute("list", accounts);
         return "accounts";
     }
 
@@ -61,25 +73,30 @@ public class AccountController {
             Model model) {
         User user = userRepo.getOne(id);
         accountService.addUserAccount(user, account);
-        model = accountService.getUserAccs(model, user);
-        model.addAttribute("message","новый счет создан");
+        List<Account> accounts = accRepo.findByUser(user);
+        model.addAttribute("userD", user);
+        model.addAttribute("list", accounts);
+        model.addAttribute("message", "новый счет создан");
         return "accounts";
     }
-
 
 
     @PostMapping("/new")
     public String addAccount(
             @AuthenticationPrincipal User user,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             Account account,
             Model model) {
         accountService.addUserAccount(user, account);
-
         List<Account> accounts = accRepo.findByUser(user);
-        model = transactionService.getUserTransList(user, pageble,model,"/transactions");
-        model.addAttribute("message","новый счет создан");
-
+        Page<Transaction> page;
+        List<User> userList = userRepo.findAll();
+        page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url","/transactions");
+        model.addAttribute("message", "новый счет создан");
         return "transactions";
     }
 

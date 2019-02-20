@@ -31,6 +31,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceTest {
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -119,9 +120,7 @@ public class UserServiceTest {
                 .when(userRepo)
                 .findAll(pageable);
 
-        ExtendedModelMap asdf = (ExtendedModelMap) userService.getUsersWithSumm(pageable, model);
-
-        Page<User> page2 = (Page<User>) asdf.get("page");
+        Page<User> page2 = userService.getUsersWithSumm(pageable, model);
 
         Assert.assertEquals(page2.getContent().get(0).getSumm().toString(), "1000");
         Assert.assertEquals(page2.getContent().get(1).getSumm().toString(), "2000");

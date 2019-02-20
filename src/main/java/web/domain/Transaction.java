@@ -14,7 +14,6 @@ public class Transaction {
     public Transaction() {
     }
     @Id
-    //@Min(0)
     @GeneratedValue
     private Long id;
 

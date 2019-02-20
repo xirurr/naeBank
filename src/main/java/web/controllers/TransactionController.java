@@ -28,21 +28,33 @@ import java.util.Map;
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
-    @Autowired
-    TransRepo transRepo;
-    @Autowired
-    UserRepo userRepo;
-    @Autowired
-    AccRepo accRepo;
-    @Autowired
-    TransactionService transactionService;
+    private final TransRepo transRepo;
+    private final UserRepo userRepo;
+    private final AccRepo accRepo;
+    private final TransactionService transactionService;
+
+    public TransactionController(TransRepo tr, UserRepo ur, AccRepo ar, TransactionService ts) {
+        this.transRepo =tr;
+        this.userRepo = ur;
+        this.accRepo = ar;
+        this.transactionService = ts;
+    }
+
 
     @GetMapping("")
     public String all(
             @AuthenticationPrincipal User user,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model) {
-        model = transactionService.getUserTransList(user, pageble, model, "/transactions");
+
+        Page<Transaction> page;
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+        page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions");
         model.addAttribute("id", user.getId());
         return "transactions";
     }
@@ -51,11 +63,17 @@ public class TransactionController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String getUserTranscations(
             @PathVariable Long id,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             Model model) {
         Page<Transaction> page;
         User user = userRepo.getOne(id);
-        model = transactionService.getUserTransList(user, pageble, model, "/transactions/" + id);
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+        page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions/" + id);
         model.addAttribute("id", id);
         model.addAttribute("XMD", "true");
         return "transactions";
@@ -68,7 +86,14 @@ public class TransactionController {
             Model model
     ) {
         Page<Transaction> page;
-        model = transactionService.getAllTransList(pageble, model);
+        page = transRepo.findAll(pageble);
+        List<Account> accountList = accRepo.findAll();
+        List<User> userList = userRepo.findAll();
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions/all");
+        model.addAttribute("accounts", accountList);
+        model.addAttribute("users", userList);
+        model.addAttribute("XMD", "true");
         return "transactions";
     }
 
@@ -77,11 +102,17 @@ public class TransactionController {
     public String createTransaction(
             @AuthenticationPrincipal User user,
             Transaction transaction,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageble,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             BindingResult bindingResult,
             Model model) {
-        model = transactionService.getUserTransList(user, pageble, model, "/transactions");
-
+        Page<Transaction> page;
+        List<User> userList = userRepo.findAll();
+        List<Account> accounts = accRepo.findByUser(user);
+        page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+        model.addAttribute("users", userList);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/transactions");
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
@@ -96,7 +127,18 @@ public class TransactionController {
         }
         if (transaction.getSenderAccount() == null) {
             transactionService.newTransaction(transaction, user);
-            model = transactionService.getUserTransList(user, pageble, model, "/transactions");
+
+
+
+            userList = userRepo.findAll();
+            accounts = accRepo.findByUser(user);
+            page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+            model.addAttribute("users", userList);
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("page", page);
+            model.addAttribute("url", "/transactions");
+
+
             model.addAttribute("message", "получено " + transaction.getAmmount());
             return "/transactions";
         }
@@ -109,7 +151,16 @@ public class TransactionController {
 
         if (!bindingResult.hasErrors()) {
             transactionService.newTransaction(transaction, user);
-            model = transactionService.getUserTransList(user, pageble, model, "/transactions");
+
+            userList = userRepo.findAll();
+            accounts = accRepo.findByUser(user);
+            page = transRepo.findBySenderRecieverId(user.getId(), pageable);
+            model.addAttribute("users", userList);
+            model.addAttribute("accounts", accounts);
+            model.addAttribute("page", page);
+            model.addAttribute("url", "/transactions");
+
+
             model.addAttribute("message", "переведено " + transaction.getAmmount());
             return "transactions";
         }
@@ -130,8 +181,7 @@ public class TransactionController {
             Model model
     ) {
         user = userRepo.getOne(id);
-        List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(user, idFilter, datefilter, ammount, senderFilter, recieverFilter);
-        Page<Transaction> page = new PageImpl<>(filteredTransactions);
+        Page<Transaction> page = transactionService.getFilteredTransactions(user, idFilter, datefilter, ammount, senderFilter, recieverFilter,pageble);
         List<Account> accountList = accRepo.findAll();
         List<User> userList = userRepo.findAll();
         model.addAttribute("page", page);
@@ -156,8 +206,7 @@ public class TransactionController {
             @RequestParam("recieverFilter") String recieverFilter,
             Model model
     ) {
-        List<Transaction> filteredTransactions = transactionService.getFilteredTransactions(null, idFilter, datefilter, ammount, senderFilter, recieverFilter);
-        Page<Transaction> page = new PageImpl<>(filteredTransactions);
+        Page<Transaction> page = transactionService.getFilteredTransactions(null, idFilter, datefilter, ammount, senderFilter, recieverFilter,pageble);
         List<Account> accountList = accRepo.findAll();
         List<User> userList = userRepo.findAll();
         model.addAttribute("page", page);
