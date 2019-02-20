@@ -82,9 +82,9 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public Page<Transaction> getFilteredTransactions(User user, String idFilter, String datefilter, String ammount, String senderFilter, String recieverFilter, Pageable pageable) {
+    public List<Transaction> getFilteredTransactions(User user, String idFilter, String datefilter, String ammount, String senderFilter, String recieverFilter) {
         String userId;
-        Page<Transaction> filteredAll;
+        List<Transaction> filteredAll;
         LocalDate datefilter1=null;
         LocalDate datefilter2=null;
         if (user == null) {
@@ -113,9 +113,9 @@ public class TransactionService implements ITransactionService {
         senderFilter = getSenderRecieverFilterString(senderFilter);
         recieverFilter = getSenderRecieverFilterString(recieverFilter);
         if (senderFilter.equals("%АВТОПОПОЛНЕНИЕ%")) {
-            filteredAll = transRepo.findAutoAddedFiltered(idFilter,  datefilter1,datefilter2, ammount, recieverFilter, userId, pageable);
+            filteredAll = transRepo.findAutoAddedFiltered(idFilter,  datefilter1,datefilter2, ammount, recieverFilter, userId);
         } else {
-            filteredAll = transRepo.findFilteredAll(idFilter, datefilter1,datefilter2, ammount, senderFilter, recieverFilter, userId, pageable);
+            filteredAll = transRepo.findFilteredAll(idFilter, datefilter1,datefilter2, ammount, senderFilter, recieverFilter, userId);
         }
         return filteredAll;
     }

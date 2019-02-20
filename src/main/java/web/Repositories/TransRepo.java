@@ -33,7 +33,7 @@ public interface TransRepo extends JpaRepository<Transaction, Long> {
 
             " and (cast (t.reciever_id as varchar) LIKE (?7)" +
             " OR cast (t.sender_id as varchar) LIKE (?7))", nativeQuery = true)
-    Page<Transaction> findFilteredAll(String idFilter, LocalDate datefilter1, LocalDate datefilter2, String ammount, String senderFilter, String recieverFilter, String currentUserId, Pageable pageable);
+    List<Transaction> findFilteredAll(String idFilter, LocalDate datefilter1, LocalDate datefilter2, String ammount, String senderFilter, String recieverFilter, String currentUserId);
 
     @Query(value = "SELECT * FROM transaction  t WHERE cast (t.id as varchar) LIKE (?1)" +
             " and t.date >=?2" +
@@ -45,7 +45,7 @@ public interface TransRepo extends JpaRepository<Transaction, Long> {
 
             " and (cast (t.reciever_id as varchar) LIKE (?6)" +
             " OR cast (t.sender_id as varchar) LIKE (?6))", nativeQuery = true)
-    Page<Transaction> findAutoAddedFiltered(String idFilter, LocalDate datefilter1, LocalDate datefilter2, String ammount, String recieverFilter, String currentUserId, Pageable pageable);
+    List<Transaction> findAutoAddedFiltered(String idFilter, LocalDate datefilter1, LocalDate datefilter2, String ammount, String recieverFilter, String currentUserId);
 
 
 }

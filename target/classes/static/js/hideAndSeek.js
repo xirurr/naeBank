@@ -1,10 +1,11 @@
-$('#autoCheckButton').on( "click", function () {
+$('#autoCheckButton').on("click", function () {
     $('#senderFilter').toggle();
     $('#senderFilter').val("АВТОПОПОЛНЕНИЕ");
-    if ($('#senderFilter').is(":visible")){
+    if ($('#senderFilter').is(":visible")) {
         $('#senderFilter').val("");
     }
 });
+
 function accToAccTrans() {
     $("#recieverField").hide();
     $("#recieverUserAccountField").show();
@@ -39,7 +40,6 @@ function checkState() {
 };
 
 
-
 $(function () {
     window.onload = function () {/*
         $('[data-toggle="popover"]').popover({
@@ -65,25 +65,29 @@ $(function () {
     }
 });
 
-(function () {
-    var reciever = document.getElementById("TransactRecieverAccSelector");
-    var sender = document.getElementById("TransactSenderAccSelector");
-    reciever.onchange = checkState;
-    sender.onchange = checkState;
+
+$(document).ready(function () {
+    $('#table').DataTable();
+
+    (function () {
+        var reciever = document.getElementById("TransactRecieverAccSelector");
+        var sender = document.getElementById("TransactSenderAccSelector");
+        if (reciever != null) {
+            reciever.onchange = checkState;
+        }
+        if (sender != null) {
+            sender.onchange = checkState;
+        }
 
 
-    var $table = $('#table');
-    $(function () {
-        $('#toolbar').find('select').change(function () {
-            $table.bootstrapTable('refreshOptions', {
-                exportDataType: $(this).val()
+        var $table = $('#table');
+        $(function () {
+            $('#toolbar').find('select').change(function () {
+                $table.bootstrapTable('refreshOptions', {
+                    exportDataType: $(this).val()
+                });
             });
-        });
-    })
-})();
-
-$( document ).ready(function() {
+        })
+    })();
     checkState();
 });
-
-

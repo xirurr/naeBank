@@ -13,8 +13,8 @@
 
     <div class="container-fluid">
     <div class="row">
-    <div class="col">
-        <@p.pager url page/>
+   <div class="col">
+
     </div>
     <div class="col">
         <#if !XMD??>
@@ -100,13 +100,9 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text btn btn-primary" id="autoCheckButton">АВТОПОПОЛНЕНИЕ</div>
                         </div>
-
                     </div>
-
                     <label class="col col-form-label">reciver</label>
-
                     <input class="form-control" type="text" name="recieverFilter" value=""/>
-
                 </div>
                 <button class="btn btn-primary" type="submit">filter now</button>
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
@@ -118,11 +114,12 @@
             </div>
 
             <div class="col">
-                <table id="table" data-toggle="table"
+                <table id="table" class="table-striped table-bordered" data-toggle="table"
                        data-search="false"
                        data-filter-control="true"
                        data-click-to-select="true"
-                       data-toolbar="#toolbar">
+                       data-toolbar="#toolbar"
+                >
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">ID</th>
@@ -134,7 +131,7 @@
 
                     </thead>
                     <tbody>
-                    <#list page.content as trans>
+                    <#list page as trans>
                         <#if (user.id=trans.sender.id || user.id=trans.reciever.id) && !XMD??>
                             <tr>
                                 <td>${trans.id}</td>
@@ -173,9 +170,6 @@
                     </#list>
                     </tbody>
                 </table>
-            </div>
-            <div class="col">
-                <@p.pager url page/>
             </div>
 
 </@c.page>

@@ -13,8 +13,8 @@
 
     <div class="container-fluid">
     <div class="row">
-    <div class="col">
-        <@p.pager url page/>
+   <div class="col">
+
     </div>
     <div class="col">
         <#if !XMD??>
@@ -118,11 +118,12 @@
             </div>
 
             <div class="col">
-                <table id="table" data-toggle="table"
+                <table id="table" class="table-striped table-bordered" data-toggle="table"
                        data-search="false"
                        data-filter-control="true"
                        data-click-to-select="true"
-                       data-toolbar="#toolbar">
+                       data-toolbar="#toolbar"
+                       width="90%">
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">ID</th>
@@ -134,7 +135,7 @@
 
                     </thead>
                     <tbody>
-                    <#list page.content as trans>
+                    <#list page as trans>
                         <#if (user.id=trans.sender.id || user.id=trans.reciever.id) && !XMD??>
                             <tr>
                                 <td>${trans.id}</td>
@@ -174,8 +175,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col">
-                <@p.pager url page/>
-            </div>
+
 
 </@c.page>

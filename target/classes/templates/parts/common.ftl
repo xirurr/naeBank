@@ -16,6 +16,7 @@
         <link rel="stylesheet"
               href="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+        <link href="/static/css/datatables.min.css" rel="stylesheet">
 
 
     </head>
@@ -41,10 +42,12 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<03819a19-1153-4a87-8e83-a9d84fb6384d>"
             type="text/javascript"></script>
     <script src="/static/js/hideAndSeek.js"></script>
     <script src="/static/js/suggesst.js"></script>
+    <script src="/static/js/datatables.min.js"></script>
 
     </body>
     </html>
